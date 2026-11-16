@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>HTTP 1.1 / 2 / 3 RESTful API Client</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" />
+  <script type="module" src="https://pyscript.net/releases/2024.3.2/core.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <main class="container">
+    <section id="header">
+      <h1>HTTP/1.1, HTTP/2, HTTP/3 RESTful API</h1>
+      <nav>
+        <ul>
+          <li><h4><strong id="program_status_1">Please wait, program is starting ...</strong></h4></li>
+        </ul>
+        <ul>
+          <li><a role="button" class="outline secondary" id="program_status_2">Initializing</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <!-- HTTP 프로토콜 버전 선택 라디오 버튼 -->
+    <section id="protocol">
+      <blockquote>
+        <fieldset>
+          <legend><strong>Select HTTP Protocol:</strong></legend>
+          <label for="HTTP-1">
+            <input type="radio" id="HTTP-1" name="radio" value="HTTP-1" checked />
+            HTTP/1.1 (http://127.0.0.1:8000/membership_api/)
+          </label>
+          <label for="HTTP-2">
+            <input type="radio" id="HTTP-2" name="radio" value="HTTP-2" />
+            HTTP/2   (https://127.0.0.1:8000/membership_api/)
+          </label>
+          <label for="HTTP-3">
+            <input type="radio" id="HTTP-3" name="radio" value="HTTP-3" />
+            HTTP/3   (https://127.0.0.1:4433/membership_api/)
+          </label>
+        </fieldset>
+      </blockquote>
+    </section>
+
+    <section id="crud-forms">
+      <form>
+        <div class="grid">
+          <input type="text" placeholder="Key (예: apple)" id="key_create" required />
+          <input type="text" placeholder="Value (예: 1000)" id="value_create" required />
+          <button type="button" id="submit_create">CREATE</button>
+        </div>
+      </form>
+      <form>
+        <div class="grid">
+          <input type="text" placeholder="Key (예: apple)" id="key_read" required />
+          <input type="text" placeholder="{ not required }" disabled />
+          <button type="button" id="submit_read">READ</button>
+        </div>
+      </form>
+      <form>
+        <div class="grid">
+          <input type="text" placeholder="Key (예: apple)" id="key_update" required />
+          <input type="text" placeholder="Value (예: 2000)" id="value_update" required />
+          <button type="button" id="submit_update">UPDATE</button>
+        </div>
+      </form>
+      <form>
+        <div class="grid">
+          <input type="text" placeholder="Key (예: apple)" id="key_delete" required />
+          <input type="text" placeholder="{ not required }" disabled />
+          <button type="button" id="submit_delete">DELETE</button>
+        </div>
+      </form>
+    </section>
+
+    <blockquote>
+      <p id="out_request">HTTP Request sent 👉 👉 👉</p>
+      <p id="out_response">HTTP Response received 👈 👈 👈</p>
+    </blockquote>
+  </main>
+
+  <!-- Starlette 서버의 /wasm/client_main.py 라우트를 통해 파이썬 파일 로드 -->
+  <script type="py" src="wasm/client_main.py" async></script>
+</body>
+</html>
