@@ -21,34 +21,7 @@ Python 비동기 ASGI 서버인 `Hypercorn`과 경량 웹 프레임워크인 `St
 
 ## System Architecture
 
-```mermaid
-flowchart LR
-    subgraph Client ["Web Browser (PyScript + Axios)"]
-        UI["Protocol Selector UI<br/>(HTTP/1.1 | HTTP/2 | HTTP/3)"]
-    end
-
-    subgraph ASGI_Server ["Hypercorn ASGI Server"]
-        H1["HTTP/1.1 Listener<br/>(TCP :8000, Plaintext)"]
-        H2["HTTP/2 Listener<br/>(TCP + TLS :8000, cert)"]
-        H3["HTTP/3 Listener<br/>(UDP / QUIC + TLS :4433, cert)"]
-    end
-
-    subgraph App ["Starlette Application (server_app.py)"]
-        Router["URL Router & CORSMiddleware"]
-        Templates["Jinja2Templates<br/>(/ , /wasm/client_main.py)"]
-        CRUD["Async CRUD Handlers<br/>(do_POST, do_GET, do_PUT, do_DELETE)"]
-        DB[("In-Memory DB<br/>(dict)")]
-    end
-
-    UI -- "http://127.0.0.1:8000" --> H1
-    UI -- "https://127.0.0.1:8000" --> H2
-    UI -- "https://127.0.0.1:4433" --> H3
-
-    H1 & H2 & H3 -- "ASGI Scope / Receive / Send" --> Router
-    Router --> Templates
-    Router --> CRUD
-    CRUD <--> DB
-```
+<img src="./screen/architeture/http123%20architecture.png" width="900" alt="System Architecture Diagram"/>
 
 ### 핵심 설계 및 아키텍처 특징
 1. **프로토콜 처리 계층(Hypercorn)과 비즈니스 로직(Starlette)의 분리**
